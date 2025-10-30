@@ -5,8 +5,9 @@ import { Observable } from 'rxjs';
 export interface Product {
   id?: number;
   name: string;
-  price: number;
   set_name: string;
+  product_type: string;
+  price: number;
   quantity: number;
   description: string;
   image_url: string;
@@ -14,7 +15,7 @@ export interface Product {
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  private apiUrl = 'https://estoque-artazon.onrender.com/api/'; // URL da sua API Flask
+  private apiUrl = 'https://estoque-artazon.onrender.com/api'; // URL da sua API Flask
 
   constructor(private http: HttpClient) {}
 
@@ -23,14 +24,14 @@ export class ProductService {
   }
 
   addProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(`${this.apiUrl}/product`, product);
+    return this.http.post<Product>(`${this.apiUrl}/product`, product, { headers: { 'Content-Type': 'application/json' } });
   }
 
   updateProduct(product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.apiUrl}/product/${product.id}`, product);
+    return this.http.put<Product>(`${this.apiUrl}/product/${product.id}`, product, { headers: { 'Content-Type': 'application/json' } });
   }
 
   deleteProduct(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/product/${id}`);
+    return this.http.delete(`${this.apiUrl}/product/${id}`, { headers: { 'Content-Type': 'application/json' } });
   }
 }

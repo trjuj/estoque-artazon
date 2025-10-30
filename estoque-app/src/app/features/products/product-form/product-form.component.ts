@@ -16,11 +16,23 @@ import { ProductService, Product } from '../../../core/services/product.service'
       <label>Nome:</label>
       <input type="text" [(ngModel)]="product.name" name="name" required>
 
-      <label>Quantidade:</label>
-      <input type="number" [(ngModel)]="product.quantity" name="quantity" required>
+      <label>Tipo de Produto:</label>
+      <input type="text" [(ngModel)]="product.product_type" name="productType" required>
+
+      <label>Nome da Coleção:</label>
+      <input type="text" [(ngModel)]="product.set_name" name="collectionName" required>
 
       <label>Preço:</label>
       <input type="number" [(ngModel)]="product.price" name="price" required>
+
+      <label>Quantidade:</label>
+      <input type="number" [(ngModel)]="product.quantity" name="quantity" required>
+
+      <label>Descrição:</label>
+      <input type="text" [(ngModel)]="product.description" name="description" required>
+
+      <label>URL da Imagem:</label>
+      <input type="text" [(ngModel)]="product.image_url" name="imageUrl" required>
 
       <button type="submit">Salvar</button>
       <button type="button" routerLink="/products">Cancelar</button>
@@ -34,7 +46,7 @@ import { ProductService, Product } from '../../../core/services/product.service'
   `]
 })
 export class ProductFormComponent {
-  product: Product = { name: '', price: 0, quantity: 0, set_name: '', description: '', image_url: '' };
+  product: Product = { name: '', price: 0, quantity: 0, set_name: '', product_type: '', description: '', image_url: '' };
 
   constructor(private productService: ProductService, private router: Router) {}
 
