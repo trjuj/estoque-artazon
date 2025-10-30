@@ -142,5 +142,16 @@ def update_product(product_id):
 
     return {"message": "Product updated successfully"}, 200
 
+@app.delete("/api/product/<int:product_id>")
+def delete_product(product_id):
+    with connection:
+        with connection.cursor() as cursor:
+
+            cursor.execute(sql_queries.DELETE_PRODUCT, (product_id,))
+            connection.commit()
+            cursor.close()
+
+    return {"message": "Product deleted successfully"}, 200
+
 if __name__ == '__main__':
     app.run()

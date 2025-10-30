@@ -20,6 +20,11 @@ SET name = %s, price = %s, set_name = %s, stock = %s, description = %s, image_ur
 WHERE id = %s
 """
 
+DELETE_PRODUCT = """
+DELETE FROM products
+WHERE id = %s
+"""
+
 CREATE_TABLE_PRODUCTS = """
 CREATE TABLE IF NOT EXISTS products (
     id SERIAL PRIMARY KEY,
