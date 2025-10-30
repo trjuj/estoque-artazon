@@ -3,7 +3,7 @@ import psycopg2
 import sql_queries
 import pyrebase
 from dotenv import load_dotenv
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 load_dotenv()
@@ -107,24 +107,34 @@ def get_products():
 
 @app.post("/api/product")
 def add_product():
-    data = request.get_json()
-    print("JSON recebido:", data)
-    name = data['name']
-    set_name = data['set_name']
-    product_type = data['product_type']
-    price = data['price']
-    quantity = data['quantity']
-    description = data['description']
-    image_url = data['image_url']
+    
+    try:
 
-    with connection:
-        with connection.cursor() as cursor:
-            cursor.execute(sql_queries.CREATE_TABLE_PRODUCTS)
-            cursor.execute(sql_queries.ADD_PRODUCT, (name, set_name, product_type, price, quantity, description, image_url))
-            connection.commit()
-            cursor.close()
+        if not request.is_json:
+            return jsonify({"error": "O corpo da requisição deve estar em formato JSON"}), 400
 
-    return {"message": "Product added successfully"}, 201
+        data = request.get_json()
+        print("JSON recebido:", data)
+        name = data['name']
+        set_name = data['set_name']
+        product_type = data['product_type']
+        price = data['price']
+        quantity = data['quantity']
+        description = data['description']
+        image_url = data['image_url']
+
+        with connection:
+            with connection.cursor() as cursor:
+                cursor.execute(sql_queries.CREATE_TABLE_PRODUCTS)
+                cursor.execute(sql_queries.ADD_PRODUCT, (name, set_name, product_type, price, quantity, description, image_url))
+                connection.commit()
+                cursor.close()
+
+        return {"message": "Product added successfully"}, 201
+    
+    except Exception as e:
+        print("Erro ao adicionar produto:", str(e))
+        return {"error": "Failed to add product"}, 500
 
 @app.put("/api/product/<int:product_id>")
 def update_product(product_id):
