@@ -115,13 +115,13 @@ def add_product():
 
         data = request.get_json()
         print("JSON recebido:", data)
-        name = data['name']
-        set_name = data['set_name']
-        product_type = data['product_type']
-        price = data['price']
-        quantity = data['quantity']
-        description = data['description']
-        image_url = data['image_url']
+        name = str(data['name'])
+        set_name = str(data['set_name'])
+        product_type = str(data['product_type'])
+        price = str(data['price'])
+        quantity = str(data['quantity'])
+        description = str(data['description'])
+        image_url = str(data['image_url'])
 
         with connection:
             with connection.cursor() as cursor:
@@ -139,13 +139,13 @@ def add_product():
 @app.put("/api/product/<int:product_id>")
 def update_product(product_id):
     data = request.get_json()
-    name = data['name'] if data['name'] else None
-    price = data['price'] if data['price'] else None
-    set_name = data['set_name'] if data['set'] else None
-    product_type = data['product_type'] if data['product_type'] else None
-    quantity = data['quantity'] if data['quantity'] else None
-    description = data['description'] if data['description'] else None
-    image_url = data['image_url'] if data['image_url'] else None
+    name = str(data['name']) if data['name'] else None
+    price = str(data['price']) if data['price'] else None
+    set_name = str(data['set_name']) if data['set_name'] else None
+    product_type = str(data['product_type']) if data['product_type'] else None
+    quantity = str(data['quantity']) if data['quantity'] else None
+    description = str(data['description']) if data['description'] else None
+    image_url = str(data['image_url']) if data['image_url'] else None
 
     with connection:
         with connection.cursor() as cursor:
