@@ -1,7 +1,7 @@
 GET_PRODUCT = """
 SELECT name, set_name, product_type, price, quantity, description, image_url
-WHERE id = %s
 FROM products
+WHERE id = %s
 """
 
 GET_ALL_PRODUCTS = """
