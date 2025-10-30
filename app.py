@@ -2,7 +2,6 @@ import os
 import psycopg2
 import sql_queries
 import pyrebase
-from datetime import datetime, timezone, timedelta
 from dotenv import load_dotenv
 from flask import Flask, request
 from flask_cors import CORS
