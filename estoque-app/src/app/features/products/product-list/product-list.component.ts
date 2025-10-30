@@ -17,7 +17,7 @@ import { ProductService, Product } from '../../../core/services/product.service'
       <thead>
         <tr>
           <th>Nome</th>
-          <th>Quantidade</th>
+          <th>Estoque</th>
           <th>Preço</th>
           <th>Ações</th>
         </tr>
@@ -35,6 +35,7 @@ import { ProductService, Product } from '../../../core/services/product.service'
     </table>
 
     <p *ngIf="loading">Carregando produtos...</p>
+    <p *ngIf="!loading && noProductsMessage">{{ noProductsMessage }}</p>
   </div>
   `,
   styles: [`
@@ -47,23 +48,31 @@ import { ProductService, Product } from '../../../core/services/product.service'
 export class ProductListComponent implements OnInit {
   products: Product[] = [];
   loading = true;
+  noProductsMessage = '';
 
   constructor(private productService: ProductService) {}
 
   ngOnInit() {
     this.productService.getProducts().subscribe({
-      next: (data) => {
-        this.products = data;
-        this.loading = false;
-      },
+    next: (data) => {
+      this.products = data;
+      this.loading = false;
+
+      if (this.products.length === 0) {
+        this.noProductsMessage = 'Nenhum produto registrado no banco de dados.';
+      } else {
+        this.noProductsMessage = '';
+      }
+    },
       error: (err) => {
         console.error('Erro ao carregar produtos:', err);
         this.loading = false;
+        this.noProductsMessage = 'Erro ao carregar produtos.';
       }
     });
   }
 
-  deleteProduct(id: string) {
+  deleteProduct(id: number) {
     this.productService.deleteProduct(id);
   }
 }

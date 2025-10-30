@@ -34,13 +34,15 @@ import { ProductService, Product } from '../../../core/services/product.service'
   `]
 })
 export class ProductFormComponent {
-  product: Product = { name: '', quantity: 0, price: 0 };
+  product: Product = { name: '', price: 0, quantity: 0, set_name: '', description: '', image_url: '' };
 
   constructor(private productService: ProductService, private router: Router) {}
 
   saveProduct() {
     this.productService.addProduct(this.product)
-      .then(() => this.router.navigate(['/products']))
-      .catch(err => console.error('Erro ao salvar produto:', err));
+    .subscribe({
+        next: () => this.router.navigate(['/products']),
+        error: (err: any) => console.error('Erro ao salvar produto:', err)
+    });
   }
 }
