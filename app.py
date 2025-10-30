@@ -70,11 +70,12 @@ def get_product(product_id):
         product_data = {
             "id": product[0],
             "name": product[1],
-            "price": product[2],
-            "set": product[3],
-            "stock": product[4],
-            "description": product[5],
-            "image_url": product[6]
+            "set_name": product[2],
+            "product_type": product[3],
+            "price": product[4],
+            "quantity": product[5],
+            "description": product[6],
+            "image_url": product[7]
         }
         return {"product": product_data}, 200
     else:
@@ -94,11 +95,12 @@ def get_products():
         products_list.append({
             "id": product[0],
             "name": product[1],
-            "price": product[2],
-            "set": product[3],
-            "stock": product[4],
-            "description": product[5],
-            "image_url": product[6]
+            "set_name": product[2],
+            "product_type": product[3],
+            "price": product[4],
+            "quantity": product[5],
+            "description": product[6],
+            "image_url": product[7]
         })
 
     return {"products": products_list}, 200
@@ -107,16 +109,17 @@ def get_products():
 def add_product():
     data = request.get_json()
     name = data['name']
+    set_name = data['set_name']
+    product_type = data['product_type']
     price = data['price']
-    set_name = data['set']
-    stock = data['stock']
+    quantity = data['quantity']
     description = data['description']
     image_url = data['image_url']
 
     with connection:
         with connection.cursor() as cursor:
             cursor.execute(sql_queries.CREATE_TABLE_PRODUCTS)
-            cursor.execute(sql_queries.ADD_PRODUCT, (name, price, set_name, stock, description, image_url))
+            cursor.execute(sql_queries.ADD_PRODUCT, (name, set_name, product_type, price, quantity, description, image_url))
             connection.commit()
             cursor.close()
 
@@ -127,15 +130,16 @@ def update_product(product_id):
     data = request.get_json()
     name = data['name'] if data['name'] else None
     price = data['price'] if data['price'] else None
-    set_name = data['set'] if data['set'] else None
-    stock = data['stock'] if data['stock'] else None
+    set_name = data['set_name'] if data['set'] else None
+    product_type = data['product_type'] if data['product_type'] else None
+    quantity = data['quantity'] if data['quantity'] else None
     description = data['description'] if data['description'] else None
     image_url = data['image_url'] if data['image_url'] else None
 
     with connection:
         with connection.cursor() as cursor:
 
-            cursor.execute(sql_queries.UPDATE_PRODUCT, (name, price, set_name, stock, description, image_url, product_id))
+            cursor.execute(sql_queries.UPDATE_PRODUCT, (name, set_name, product_type, price, quantity, description, image_url, product_id))
             connection.commit()
             cursor.close()
 

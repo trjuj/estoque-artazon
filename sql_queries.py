@@ -10,13 +10,13 @@ FROM products
 """
 
 ADD_PRODUCT = """
-INSERT INTO products (name, price, set_name, stock, description, image_url)
+INSERT INTO products (name, set_name, product_type, price, quantity, description, image_url)
 VALUES (%s, %s, %s, %s, %s, %s)
 """
 
 UPDATE_PRODUCT = """
 UPDATE products
-SET name = %s, price = %s, set_name = %s, stock = %s, description = %s, image_url = %s
+SET name = %s, set_name = %s, product_type = %s, price = %s, quantity = %s, description = %s, image_url = %s
 WHERE id = %s
 """
 
