@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductService, Product } from '../../../core/services/product.service';
 
 @Component({
@@ -48,20 +48,33 @@ import { ProductService, Product } from '../../../core/services/product.service'
 export class ProductFormComponent {
   product: Product = { name: '', price: 0, quantity: 0, set_name: '', product_type: '', description: '', image_url: '' };
 
-  constructor(private productService: ProductService, private router: Router) {}
+  isEditing = false;
 
-  saveProduct(): void {
-    this.productService.addProduct(this.product).subscribe({
-      next: (response) => {
-        console.log('Produto adicionado com sucesso:', response);
-        alert('Produto salvo com sucesso!');
-        this.router.navigate(['/products']);
-      },
-      error: (err) => {
-        console.error('Erro ao adicionar produto:', err);
-        alert('Erro ao salvar produto. Verifique os dados e tente novamente.');
-      }
-    });
+  constructor(private productService: ProductService, private route: ActivatedRoute, private router: Router) {}
+
+  ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.isEditing = true;
+      this.productService.getProductById(+id).subscribe({
+        next: (data) => (this.product = data),
+        error: (err) => console.error('Erro ao carregar produto:', err)
+      });
+    }
+  }
+
+  saveProduct() {
+    if (this.isEditing && this.product.id) {
+      this.productService.updateProduct(this.product).subscribe({
+        next: () => this.router.navigate(['/products']),
+        error: (err) => console.error('Erro ao atualizar produto:', err)
+      });
+    } else {
+      this.productService.addProduct(this.product).subscribe({
+        next: () => this.router.navigate(['/products']),
+        error: (err) => console.error('Erro ao adicionar produto:', err)
+      });
+    }
   }
 
   onCancel(): void {

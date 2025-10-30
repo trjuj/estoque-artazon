@@ -19,8 +19,8 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}/products`);
+  getProducts(): Observable<{ products: Product[] }> {
+    return this.http.get<{ products: Product[] }>(`${this.apiUrl}/products`);
   }
 
   addProduct(product: Product): Observable<Product> {
@@ -33,5 +33,9 @@ export class ProductService {
 
   deleteProduct(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/product/${id}`, { headers: { 'Content-Type': 'application/json' } });
+  }
+
+  getProductById(id: number): Observable<Product> {
+  return this.http.get<Product>(`${this.apiUrl}/product/${id}`);
   }
 }

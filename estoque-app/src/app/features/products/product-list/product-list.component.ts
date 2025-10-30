@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { ProductService, Product } from '../../../core/services/product.service';
 
 @Component({
@@ -28,7 +29,12 @@ import { ProductService, Product } from '../../../core/services/product.service'
           <td>{{ p.quantity }}</td>
           <td>{{ p.price | currency:'BRL' }}</td>
           <td>
-            <button (click)="deleteProduct(p.id!)">Excluir</button>
+            <button (click)="editProduct(p.id!)" class="btn btn-primary">
+              Editar
+            </button>
+            <button (click)="deleteProduct(p.id!)" class="btn btn-danger">
+              Excluir
+            </button>
           </td>
         </tr>
       </tbody>
@@ -50,12 +56,13 @@ export class ProductListComponent implements OnInit {
   loading = true;
   noProductsMessage = '';
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService, private router: Router) {}
 
   ngOnInit() {
     this.productService.getProducts().subscribe({
     next: (data) => {
-      this.products = data;
+      console.log('Dados recebidos:', data);
+      this.products = data.products;
       this.loading = false;
 
       if (this.products.length === 0) {
@@ -72,7 +79,22 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  deleteProduct(id: number) {
-    this.productService.deleteProduct(id);
+  deleteProduct(id: number): void {
+    if (confirm('Tem certeza que deseja excluir este produto?')) {
+      this.productService.deleteProduct(id).subscribe({
+        next: () => {
+          console.log('Produto excluído com sucesso');
+          // Atualiza a lista de produtos após exclusão
+          this.products = this.products.filter(p => p.id !== id);
+        },
+        error: (err) => {
+          console.error('Erro ao excluir produto:', err);
+        }
+      });
+    }
+  }
+
+  editProduct(id: number): void {
+  this.router.navigate(['/products/edit', id]);
   }
 }
