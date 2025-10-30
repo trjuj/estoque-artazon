@@ -108,6 +108,7 @@ def get_products():
 @app.post("/api/product")
 def add_product():
     data = request.get_json()
+    print("JSON recebido:", data)
     name = data['name']
     set_name = data['set_name']
     product_type = data['product_type']
