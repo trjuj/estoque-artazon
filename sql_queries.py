@@ -1,10 +1,10 @@
 GET_PRODUCT = """
-SELECT id, name, set_name, product_type, price, quantity, description, image_url
+SELECT name, set_name, product_type, price, quantity, description, image_url
 WHERE id = %s
 """
 
 GET_ALL_PRODUCTS = """
-SELECT id, name, set_name, product_type, price, quantity, description, image_url
+SELECT name, set_name, product_type, price, quantity, description, image_url
 FROM products
 """
 
