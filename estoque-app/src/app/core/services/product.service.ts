@@ -15,7 +15,7 @@ export interface Product {
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  private apiUrl = 'https://estoque-artazon.onrender.com/api'; // URL da sua API Flask
+  private apiUrl = 'http://127.0.0.1:5000/api'; // URL da sua API Flask
 
   constructor(private http: HttpClient) {}
 
