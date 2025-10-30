@@ -11,7 +11,7 @@ FROM products
 
 ADD_PRODUCT = """
 INSERT INTO products (name, set_name, product_type, price, quantity, description, image_url)
-VALUES (%s, %s, %s, %s, %s, %s)
+VALUES (%s, %s, %s, %s, %s, %s, %s)
 """
 
 UPDATE_PRODUCT = """
