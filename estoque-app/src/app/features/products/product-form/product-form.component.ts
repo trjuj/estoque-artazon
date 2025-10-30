@@ -50,11 +50,21 @@ export class ProductFormComponent {
 
   constructor(private productService: ProductService, private router: Router) {}
 
-  saveProduct() {
-    this.productService.addProduct(this.product)
-    .subscribe({
-        next: () => this.router.navigate(['/products']),
-        error: (err: any) => console.error('Erro ao salvar produto:', err)
+  saveProduct(): void {
+    this.productService.addProduct(this.product).subscribe({
+      next: (response) => {
+        console.log('Produto adicionado com sucesso:', response);
+        alert('Produto salvo com sucesso!');
+        this.router.navigate(['/products']);
+      },
+      error: (err) => {
+        console.error('Erro ao adicionar produto:', err);
+        alert('Erro ao salvar produto. Verifique os dados e tente novamente.');
+      }
     });
+  }
+
+  onCancel(): void {
+    this.router.navigate(['/products']);
   }
 }
