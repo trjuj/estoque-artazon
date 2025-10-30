@@ -4,7 +4,7 @@ WHERE id = %s
 """
 
 GET_ALL_PRODUCTS = """
-SELECT name, set_name, product_type, price, quantity, description, image_url
+SELECT id, name, set_name, product_type, price, quantity, description, image_url
 FROM products
 """
 

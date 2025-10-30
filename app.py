@@ -68,14 +68,13 @@ def get_product(product_id):
 
     if product:
         product_data = {
-            "id": product[0],
-            "name": product[1],
-            "set_name": product[2],
-            "product_type": product[3],
-            "price": product[4],
-            "quantity": product[5],
-            "description": product[6],
-            "image_url": product[7]
+            "name": product[0],
+            "set_name": product[1],
+            "product_type": product[2],
+            "price": product[3],
+            "quantity": product[4],
+            "description": product[5],
+            "image_url": product[6]
         }
         return {"product": product_data}, 200
     else:
